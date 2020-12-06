@@ -16,4 +16,11 @@ class TestGetCurve(unittest.TestCase):
         curve = reg.get_curve(curve_name)
         self.assertIsInstance(curve, ec.Curve)
         self.assertEqual(curve_name, curve.name)
-        self.assertEqual(reg.EC_CURVE_REGISTRY[curve_name]["n"], curve.field.n)
+        self.assertEqual(reg.EC_CURVE_REGISTRY[curve_name].value["n"], curve.field.n)
+
+    def test_when_curve_enum_is_provided_then_curve_object_is_built(self):
+        curve_name = reg.EC_CURVE_REGISTRY.brainpoolP160r1.name
+        curve = reg.get_curve_safe(reg.EC_CURVE_REGISTRY.brainpoolP160r1)
+        self.assertIsInstance(curve, ec.Curve)
+        self.assertEqual(curve_name, curve.name)
+        self.assertEqual(reg.EC_CURVE_REGISTRY[curve_name].value["n"], curve.field.n)
